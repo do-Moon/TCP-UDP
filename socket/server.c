@@ -8,22 +8,18 @@ int main()
     char buf[256];
 
     WSAStartup(MAKEWORD(2, 0), &w);
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(9999);
     server.sin_family = AF_INET;
 
     bind(sock, (struct sockaddr *)&server, sizeof(server));
-    listen(sock, 1);
 
     while (1)
     {
         int len = sizeof(client);
-        int sock2 = accept(sock, (struct sockaddr *)&client, &len);
-
-        recv(sock2, buf, sizeof(buf), MSG_PEEK);
+        recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&client, &len);
         printf("%s\n", buf);
-        closesocket(sock2);
     }
     closesocket(sock);
 
