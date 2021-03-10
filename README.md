@@ -1,4 +1,4 @@
-# ソケット通信 TCP/IP
+TCP/UDP Test
 
 ```exe
 gcc -lwsock32 socket/client.c -lws2_32 -o client
