@@ -9,14 +9,13 @@ int main()
     
     WSAStartup(MAKEWORD(2, 0), &w);
 
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
     server.sin_addr.s_addr = inet_addr("127.0.0.1");
     server.sin_port = htons(9999);
     server.sin_family = AF_INET;
 
-    connect(sock, (struct sockaddr *)&server, sizeof(server));
     strcpy(buf, "Connection completed!");
-    send(sock, buf, sizeof(buf), 0);
+    sendto(sock, buf, sizeof(buf), 0, (struct sockaddr *)&server, sizeof(server));
 
     closesocket(sock);
     WSACleanup();
